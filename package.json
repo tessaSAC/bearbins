@@ -35,23 +35,11 @@
     "prettier": "^1.18.2",
     "sass-loader": "^7.1.0",
     "stylelint": "^10.1.0",
+    "stylelint-config-css-modules": "^1.4.0",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-recess-order": "^2.0.3",
+    "stylelint-scss": "^3.10.0",
     "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/recommended",
-      "@vue/prettier"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "vue/attribute-hyphenation": "off"
-    }
   },
   "postcss": {
     "plugins": {
