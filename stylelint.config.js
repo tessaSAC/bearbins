@@ -29,7 +29,7 @@ module.exports = {
     'selector-max-universal': 1,
     // Disallow allow global element/type selectors in scoped modules
     'selector-max-type': [
-      0,
+      1,
       {
         ignore: ['child', 'descendant', 'compounded'],
       },
