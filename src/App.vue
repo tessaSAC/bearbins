@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <div class="bearBin">
+    <!-- <div class="bearBin">
       <div class="dumpster"><div class="clean bear"/></div>
-    </div>
-    <div class="bearBin">
-      <div v-for="(dumpster, idx) in dumpsters" :key="idx" class="dumpster">
-        <div v-for="(bear, idx) in dumpster" :key="idx" :class="`${ bear } bear`" />
+    </div> -->
+    <div class="bearBinsAll">
+      <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
+        <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
       </div>
     </div>
 
-    <button @click="radd">good</button>
-    <button @click="badd">bad</button>
+    <div class="controls">
+      <button @click="addBearReactive" class="button">good</button>
+      <button @click="addBearHidden" class="button">bad</button>
+    </div>
   </div>
 </template>
 
@@ -19,14 +21,8 @@ export default {
   name: 'App',
 
   data: _ => ({
-    dumpsters: [[]]
+    bearBins: [{ type: 'dumpster', bears: [] }]
   }),
-
-  watch: {
-    '$nextTick': function() {
-      console.log('hiii')
-    }
-  },
 
   // have a method that pushes dumpsters and bathtubs
   // push bears into the lastest bath or dumpster
@@ -53,36 +49,29 @@ export default {
   //   },
   // ]
 
-
-  // alternative: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
-
-  // example:
-  // start with a dumpster
-    // good add bear
-      // renders and new dumpster gets pushed and rendered
-  // bad add bear
-    // bear gets added to new dumpster but nothing renders
-  // good add bear
-    // good bear gets added to new dumpster
-    // renders dumpster with good and bad bea
-    // renders and adds new dumpster
-
-  // data structure:
-  // [
-  //   [
-  //     'good',
-  //     'bad',
-  //   ],
-  // ]    // actually this can use the same structure as the previous example for consistency
-
+  created() { window.bearBins = this.bearBins },
 
   methods: {
-    radd() {
-      this.dumpsters[0].push('clean')
+    // Example 2: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
+
+    // example:
+    // start with a dumpster
+      // good add bear
+        // renders and new dumpster gets pushed and rendered
+    // bad add bear
+      // bear gets added to new dumpster but nothing renders
+    // good add bear
+      // good bear gets added to new dumpster
+      // renders dumpster with good and bad bea
+      // renders and adds new dumpster
+
+    addBearReactive() {
+      this.bearBins[this.bearBins.length - 1].bears.push('clean')
     },
 
-    badd() {
-
+    addBearHidden() {
+      const currentBin = this.bearBins[this.bearBins.length - 1].bears
+      currentBin[currentBin.length] = 'dirty'
     },
   },
 }
@@ -92,12 +81,15 @@ export default {
 $bearHeight: 4vw;
 $bearWidth: 5vh;
 
-$dumpsterWidth: 25vw;
-$dumpsterHeight: 10vh;
+$dumpsterWidth: 10vw;
+$dumpsterHeight: 5vh;
+
+.bearBinsAll {
+  display: flex;
+}
 
 .bearBin {
   display: flex;
-  flex-direction: column;
 
   + .bearBin {
     margin-left: 5vh;
@@ -107,7 +99,7 @@ $dumpsterHeight: 10vh;
 .dumpster {
   display: flex;
   justify-content: space-around;
-  width: $dumpsterWidth;
+  min-width: $dumpsterWidth;
   height: $dumpsterHeight;
   background: green;
   background-blend-mode: multiply; // will work once image is added
@@ -125,11 +117,41 @@ $dumpsterHeight: 10vh;
   }
 }
 
+.controls {
+  margin-top: 2rem;
+  padding: 4rem;
+  display: flex;
+  justify-content: flex-end;
+
+  .button {
+    background: none;
+    border: 1px solid black;
+    border-radius: 2rem;
+    padding: 0.5rem 1.5rem;
+    font-family: 'Overpass', sans-serif;
+    font-size: 1.3rem;
+
+    &:active {
+      position: relative;
+      top: 0.2rem;
+      left: 0.1rem;
+    }
+
+    + .button {
+      margin-left: 1rem;
+    }
+  }
+}
+
 #app {
+  @import url('https://fonts.googleapis.com/css?family=Bad+Script|Lateef|Overpass|Overpass+Mono&display=swap');
+
   // reset:
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
