@@ -4,17 +4,71 @@
       <div class="dumpster"><div class="clean bear"/></div>
     </div>
     <div class="bearBin">
-      <div class="dumpster">
-        <div class="clean bear" />
-        <div class="dirty bear" />
+      <div v-for="(dumpster, idx) in dumpsters" :key="idx" class="dumpster">
+        <div v-for="(bear, idx) in dumpster" :key="idx" :class="`${ bear } bear`" />
       </div>
     </div>
+
+    <button @click="radd">good</button>
+    <button @click="badd">bad</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+
+  data: _ => ({
+    dumpsters: [[]]
+  }),
+
+  watch: {
+    '$nextTick': function() {
+      console.log('hiii')
+    }
+  },
+
+  // have a method that pushes dumpsters and bathtubs
+  // push bears into the lastest bath or dumpster
+
+  // if it's a non-reactive add it will be a dumpster
+  // otherwise it will be a bathtub
+
+  // example:
+  // push a tub (should render)
+    // add bear to latest container
+    // should render in tub
+  // push a dumpster (should not render)
+    // add bear to latest container
+    // should render in newly rendered dumpster
+  // alt: try the above
+    // push a tub
+    // dumpster should render as well
+
+
+  // alternative: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
+
+  // example:
+  // start with a dumpster
+    // good add bear
+      // renders and new dumpster gets pushed and rendered
+  // bad add bear
+    // bear gets added to new dumpster but nothing renders
+  // good add bear
+    // good bear gets added to new dumpster
+    // renders dumpster with good and bad bea
+    // renders and adds new dumpster
+
+
+  methods: {
+    radd() {
+      this.dumpsters[0].push('clean')
+    },
+
+    badd() {
+
+    },
+  },
 }
 </script>
 
@@ -40,7 +94,7 @@ $dumpsterHeight: 10vh;
   width: $dumpsterWidth;
   height: $dumpsterHeight;
   background: green;
-  background-blend-mode: multiply;  // will work once image is added
+  background-blend-mode: multiply; // will work once image is added
 }
 
 .bear {
