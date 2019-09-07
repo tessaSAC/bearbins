@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <!-- <div class="bearBin">
-      <div class="dumpster"><div class="clean bear"/></div>
-    </div> -->
     <div class="bearBinsAll">
       <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
         <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
@@ -10,8 +7,11 @@
     </div>
 
     <div class="controls">
-      <button @click="addBearReactive" class="button">good</button>
-      <button @click="addBearHidden" class="button">bad</button>
+      <button @click="addTub" class="button">+tub</button>
+      <button @click="addDumpster" class="button">+dumpster</button>
+      <button @click="addBear" class="button">+bear</button>
+      <button @click="addBearReactive" class="button">+ sun bear</button>
+      <button @click="addBearHidden" class="button">+ moon bear</button>
     </div>
   </div>
 </template>
@@ -21,37 +21,55 @@ export default {
   name: 'App',
 
   data: _ => ({
-    bearBins: [{ type: 'dumpster', bears: [] }]
+    bearBins: [{ type: 'tub', bears: [] }]
   }),
 
-  // have a method that pushes dumpsters and bathtubs
-  // push bears into the lastest bath or dumpster
-
-  // if it's a non-reactive add it will be a dumpster
-  // otherwise it will be a bathtub
-
-  // example:
-  // push a tub (should render)
-    // add bear to latest container
-    // should render in tub
-  // push a dumpster (should not render)
-    // add bear to latest container
-    // should render in newly rendered dumpster
-  // alt: try the above
-    // push a tub
-    // dumpster should render as well
-
-  // data structure:
-  // [
-  //   {
-  //     type: dumpster | tub,
-  //     bears: [],
-  //   },
-  // ]
+  computed: {
+    lenBearBins() { return this.bearBins.length }
+  },
 
   created() { window.bearBins = this.bearBins },
 
   methods: {
+    // TODO: Make two pages because need to not render new dumps on nextTick
+    // Example 1:
+    // have a method that pushes dumpsters and bathtubs
+    // push bears into the lastest bath or dumpster
+
+    // if it's a non-reactive add it will be a dumpster
+    // otherwise it will be a bathtub
+
+    // example 1:
+    // push a tub (should render)
+      // add bear to latest container
+      // should render in tub
+    // push a dumpster (should not render)
+      // add bear to latest container
+      // should render in newly rendered dumpster
+    // alt: try the above
+      // push a tub
+      // dumpster should render as well
+
+    // data structure:
+    // [
+    //   {
+    //     type: dumpster | tub,
+    //     bears: [],
+    //   },
+    // ]
+
+    addTub() {
+      this.bearBins.push({ type: 'tub', bears: [] })
+    },
+
+    addDumpster() {
+      this.bearBins[ this.lenBearBins ] = { type: 'dumpster', bears: [] }
+    },
+
+    addBear() {
+      this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
+    },
+
     // Example 2: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
 
     // example:
@@ -66,11 +84,11 @@ export default {
       // renders and adds new dumpster
 
     addBearReactive() {
-      this.bearBins[this.bearBins.length - 1].bears.push('clean')
+      this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
     },
 
     addBearHidden() {
-      const currentBin = this.bearBins[this.bearBins.length - 1].bears
+      const currentBin = this.bearBins[ this.lenBearBins - 1 ].bears
       currentBin[currentBin.length] = 'dirty'
     },
   },
@@ -90,6 +108,11 @@ $dumpsterHeight: 5vh;
 
 .bearBin {
   display: flex;
+  justify-content: space-around;
+  min-width: $dumpsterWidth;
+  height: $dumpsterHeight;
+  background: green;
+  background-blend-mode: multiply; // will work once image is added
 
   + .bearBin {
     margin-left: 5vh;
@@ -97,12 +120,10 @@ $dumpsterHeight: 5vh;
 }
 
 .dumpster {
-  display: flex;
-  justify-content: space-around;
-  min-width: $dumpsterWidth;
-  height: $dumpsterHeight;
   background: green;
-  background-blend-mode: multiply; // will work once image is added
+}
+.tub {
+ background: darkgrey;
 }
 
 .bear {
