@@ -45,6 +45,14 @@ export default {
     // push a tub
     // dumpster should render as well
 
+  // data structure:
+  // [
+  //   {
+  //     type: dumpster | tub,
+  //     bears: [],
+  //   },
+  // ]
+
 
   // alternative: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
 
@@ -58,6 +66,14 @@ export default {
     // good bear gets added to new dumpster
     // renders dumpster with good and bad bea
     // renders and adds new dumpster
+
+  // data structure:
+  // [
+  //   [
+  //     'good',
+  //     'bad',
+  //   ],
+  // ]    // actually this can use the same structure as the previous example for consistency
 
 
   methods: {
