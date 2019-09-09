@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="tabs">
+      <div class="tab">tab a</div>
+      <div class="tab active">tab b</div>
+    </div>
     <div class="bearBinsAll">
       <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
         <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
@@ -96,6 +100,30 @@ export default {
 </script>
 
 <style lang="scss">
+.tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+
+  .tab {
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 0.2rem 0.2rem rgba(0, 0, 0, 0.03);
+    opacity: 0.8;
+    padding: 0.75rem 6rem 0.5rem;
+    display: flex;
+    align-items: flex-end;
+
+    &.active {
+      background: none;
+      box-shadow: none;
+      opacity: 1;
+    }
+  }
+}
+
+
+
 $bearHeight: 4vw;
 $bearWidth: 5vh;
 
