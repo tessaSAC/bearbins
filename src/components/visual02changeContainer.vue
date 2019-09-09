@@ -40,8 +40,8 @@ export default {
     },
 
     addDumpster() {
-      this.bearBins[ this.lenBearBins ] = { type: 'dumpster', bears: [] }
-      console.dir(this.bearBins)
+      this.bearBins[ this.bearBins.length ] = { type: 'dumpster', bears: [] }  // NB: can't use computed prop here because it won't update
+      console.dir(this.bearBins)  // NB only tubs have observers on them — this may have ramifications for editing grandchildren
     },
 
     addBear() {
