@@ -1,100 +1,39 @@
 <template>
-  <div id="app">
-    <div class="tabs">
-      <div class="tab">tab a</div>
-      <div class="tab active">tab b</div>
-    </div>
-    <div class="bearBinsAll">
-      <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
-        <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
-      </div>
-    </div>
-
-    <div class="controls">
-      <button @click="addTub" class="button">+tub</button>
-      <button @click="addDumpster" class="button">+dumpster</button>
-      <button @click="addBear" class="button">+bear</button>
-      <button @click="addBearReactive" class="button">+ sun bear</button>
-      <button @click="addBearHidden" class="button">+ moon bear</button>
-    </div>
+<div id="app">
+  <div class="tabs">
+    <div
+      :class="tabActive === 1 ? 'active' : ''"
+      class="tab"
+      @click="changeTabActive(1)"
+    >visual i</div>
+    <div
+      :class="tabActive === 2 ? 'active' : ''"
+      class="tab"
+      @click="changeTabActive(2)"
+    >visual ii</div>
   </div>
+
+  <visual01changeBear v-if="tabActive === 1" />
+  <visual02changeContainer v-else />
+</div>
 </template>
 
 <script>
+import visual01changeBear from './components/visual01changeBear'
+import visual02changeContainer from './components/visual02changeContainer'
+
 export default {
   name: 'App',
 
-  data: _ => ({
-    bearBins: [{ type: 'tub', bears: [] }]
-  }),
-
-  computed: {
-    lenBearBins() { return this.bearBins.length }
+  components: {
+    visual01changeBear,
+    visual02changeContainer,
   },
 
-  created() { window.bearBins = this.bearBins },
+  data: _ => ({ tabActive: 1, }),
 
   methods: {
-    // TODO: Make two pages because need to not render new dumps on nextTick
-    // Example 1:
-    // have a method that pushes dumpsters and bathtubs
-    // push bears into the lastest bath or dumpster
-
-    // if it's a non-reactive add it will be a dumpster
-    // otherwise it will be a bathtub
-
-    // example 1:
-    // push a tub (should render)
-      // add bear to latest container
-      // should render in tub
-    // push a dumpster (should not render)
-      // add bear to latest container
-      // should render in newly rendered dumpster
-    // alt: try the above
-      // push a tub
-      // dumpster should render as well
-
-    // data structure:
-    // [
-    //   {
-    //     type: dumpster | tub,
-    //     bears: [],
-    //   },
-    // ]
-
-    addTub() {
-      this.bearBins.push({ type: 'tub', bears: [] })
-    },
-
-    addDumpster() {
-      this.bearBins[ this.lenBearBins ] = { type: 'dumpster', bears: [] }
-    },
-
-    addBear() {
-      this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
-    },
-
-    // Example 2: dumpsters get pushed on nextTick, bears get good or bad added to the latest container
-
-    // example:
-    // start with a dumpster
-      // good add bear
-        // renders and new dumpster gets pushed and rendered
-    // bad add bear
-      // bear gets added to new dumpster but nothing renders
-    // good add bear
-      // good bear gets added to new dumpster
-      // renders dumpster with good and bad bea
-      // renders and adds new dumpster
-
-    addBearReactive() {
-      this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
-    },
-
-    addBearHidden() {
-      const currentBin = this.bearBins[ this.lenBearBins - 1 ].bears
-      currentBin[currentBin.length] = 'dirty'
-    },
+    changeTabActive(newTab) { this.tabActive = newTab },
   },
 }
 </script>
@@ -116,7 +55,7 @@ export default {
 
     &.active {
       background: none;
-      box-shadow: none;
+      box-shadow: 0 -0.3rem 0.3rem rgba(0, 0, 0, 0.2);
       opacity: 1;
     }
   }
@@ -151,7 +90,7 @@ $dumpsterHeight: 5vh;
   background: green;
 }
 .tub {
- background: darkgrey;
+  background: darkgrey;
 }
 
 .bear {
