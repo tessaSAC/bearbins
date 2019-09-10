@@ -72,91 +72,8 @@ $black: rgba(#2c3e50, 0.7);
   }
 }
 
-.bearBinsAll {
-  min-height: 50vh;
-  display: flex;
-}
-
-.bearBin {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-start;
-
-  + .bearBin {
-    margin-left: 5vh;
-  }
-}
-
-.dumpster {
-  content:url('./assets/dumpster.png');
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-}
-.tub {
-  content:url('./assets/tub.png');
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-}
-
-.bearsAll {
-  padding: 0 0.1rem;
-  display: flex;
-  justify-content: space-around;
-}
-
-.bear {
-  content:url('./assets/bear.png');
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-
-
-  &.dirty { content:url('./assets/bear-washing.png'); }
-}
-
-.controls {
-  margin-top: 2rem;
-  padding: 4rem;
-  display: flex;
-  justify-content: flex-end;
-
-  .button {
-    background: none;
-    border: 1px solid $black;
-    border-radius: 2rem;
-    padding: 0.5rem 1.5rem;
-    font-family: 'Overpass', sans-serif;
-    font-size: 1.3rem;
-    color: $black;
-
-    &:active {
-      position: relative;
-      top: 0.2rem;
-      left: 0.1rem;
-    }
-
-    + .button {
-      margin-left: 1rem;
-    }
-  }
-}
-
 #app {
-  @import url('https://fonts.googleapis.com/css?family=Bad+Script|Lateef|Overpass|Overpass+Mono&display=swap');
-
-  // dumpster styles:
-  background-image: url('./assets/paper_texture.jpg');
-  background-blend-mode: multiply;
-
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  // reset:
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  padding: 10vh;
+  @import url('https://fonts.googleapis.com/css?family=Overpass&display=swap');
 
   font-family: 'Overpass', 'Avenir', Helvetica, Arial, sans-serif;
   color: $black;
@@ -164,11 +81,28 @@ $black: rgba(#2c3e50, 0.7);
   font-size: 0.9rem;
   text-align: center;
 
-// from cli:
+  // background:
+  background-image: url('./assets/paper_texture.jpg');
+  background-blend-mode: multiply;
+
+  box-sizing: border-box;
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: 10vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+
+  // from cli:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
 
+  // reset:
   *,
   *:before,
   *:after {

@@ -1,8 +1,9 @@
 <script>
+import BearControls from './BearControls'
 import BearVisualizer from './BearVisualizer'
 
 export default {
-  components: { BearVisualizer },
+  components: { BearControls, BearVisualizer },
 
   data: _ => ({
     bearBins: [{ type: 'dumpster', bears: [] }],
@@ -44,9 +45,9 @@ export default {
 <div class="Visual01ChangeBear">
   <BearVisualizer :bearBins="bearBins" />
 
-  <div class="controls">
+  <BearControls>
     <button @click="addBearReactive" class="button">+ clean bear</button>
     <button @click="addBearHidden" class="button">+ washing bear</button>
-  </div>
+  </BearControls>
 </div>
 </template>
