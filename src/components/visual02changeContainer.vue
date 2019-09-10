@@ -1,12 +1,12 @@
 <script>
+import BearVisualizer from './BearVisualizer'
+
 export default {
+  components: { BearVisualizer },
+
   data: _ => ({
     bearBins: [],
   }),
-
-  computed: {
-    lenBearBins() { return this.bearBins.length }
-  },
 
   methods: {
     // Visual 02:
@@ -45,19 +45,15 @@ export default {
     },
 
     addBear() {
-      this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
+      this.bearBins[ this.bearBins.length - 1 ].bears.push('clean')
     },
   },
 }
 </script>
 
 <template>
-<div class="visual02changeContainer">
-  <div class="bearBinsAll">
-    <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
-      <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
-    </div>
-  </div>
+<div class="Visual02changeContainer">
+  <BearVisualizer :bearBins="bearBins" />
 
   <div class="controls">
     <button @click="addTub" class="button">+tub</button>

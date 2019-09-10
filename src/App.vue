@@ -1,3 +1,23 @@
+<script>
+import Visual01ChangeBear from './components/Visual01ChangeBear'
+import Visual02ChangeContainer from './components/Visual02ChangeContainer'
+
+export default {
+  name: 'App',
+
+  components: {
+    Visual01ChangeBear,
+    Visual02ChangeContainer,
+  },
+
+  data: _ => ({ tabActive: 1, }),
+
+  methods: {
+    changeTabActive(newTab) { this.tabActive = newTab },
+  },
+}
+</script>
+
 <template>
 <div id="app">
   <div class="tabs">
@@ -13,32 +33,14 @@
     >visual ii</div>
   </div>
 
-  <visual01changeBear v-if="tabActive === 1" />
-  <visual02changeContainer v-else />
+  <Visual01ChangeBear v-if="tabActive === 1" />
+  <Visual02ChangeContainer v-else />
 </div>
 </template>
 
-<script>
-import visual01changeBear from './components/visual01changeBear'
-import visual02changeContainer from './components/visual02changeContainer'
-
-export default {
-  name: 'App',
-
-  components: {
-    visual01changeBear,
-    visual02changeContainer,
-  },
-
-  data: _ => ({ tabActive: 1, }),
-
-  methods: {
-    changeTabActive(newTab) { this.tabActive = newTab },
-  },
-}
-</script>
-
 <style lang="scss">
+$black: rgba(#2c3e50, 0.7);
+
 .tabs {
   position: absolute;
   top: 0;
@@ -61,25 +63,15 @@ export default {
   }
 }
 
-
-
-$bearHeight: 4vw;
-$bearWidth: 5vh;
-
-$dumpsterWidth: 10vw;
-$dumpsterHeight: 5vh;
-
 .bearBinsAll {
+  min-height: 50vh;
   display: flex;
 }
 
 .bearBin {
   display: flex;
-  justify-content: space-around;
-  min-width: $dumpsterWidth;
-  height: $dumpsterHeight;
-  background: green;
-  background-blend-mode: multiply; // will work once image is added
+  flex-direction: column-reverse;
+  justify-content: flex-start;
 
   + .bearBin {
     margin-left: 5vh;
@@ -87,22 +79,26 @@ $dumpsterHeight: 5vh;
 }
 
 .dumpster {
-  background: green;
+  content:url('./assets/dumpster.png');
+  mix-blend-mode: multiply;
 }
 .tub {
-  background: darkgrey;
+  content:url('./assets/tub.png');
+  mix-blend-mode: multiply;
+}
+
+.bearsAll {
+  padding: 0 0.1rem;
+  display: flex;
+  justify-content: space-around;
 }
 
 .bear {
-  position: relative;
-  bottom: $bearHeight;
-  width: $bearWidth;
-  height: $bearHeight;
-  background: brown;
+  content:url('./assets/bear.png');
+  mix-blend-mode: multiply;
 
-  &.dirty {
-    background: red;
-  }
+
+  &.dirty { content:url('./assets/bear-washing.png'); }
 }
 
 .controls {
@@ -113,11 +109,12 @@ $dumpsterHeight: 5vh;
 
   .button {
     background: none;
-    border: 1px solid black;
+    border: 1px solid $black;
     border-radius: 2rem;
     padding: 0.5rem 1.5rem;
     font-family: 'Overpass', sans-serif;
     font-size: 1.3rem;
+    color: $black;
 
     &:active {
       position: relative;
@@ -134,27 +131,31 @@ $dumpsterHeight: 5vh;
 #app {
   @import url('https://fonts.googleapis.com/css?family=Bad+Script|Lateef|Overpass|Overpass+Mono&display=swap');
 
-  // reset:
+  // dumpster styles:
+  background-image: url('./assets/paper_texture.jpg');
+  background-blend-mode: multiply;
+
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
+
+  // reset:
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   padding: 10vh;
 
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Overpass', 'Avenir', Helvetica, Arial, sans-serif;
+  color: $black;
   font-size: 16px;
-  color: #2c3e50;
+  font-size: 0.9rem;
   text-align: center;
-  // dumpster styles:
-  background-image: url('./assets/paper_texture.jpg');
-  background-blend-mode: multiply;
-  opacity: 0.5;
+
+// from cli:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 
   *,
   *:before,

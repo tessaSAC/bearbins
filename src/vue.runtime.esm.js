@@ -1975,7 +1975,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 }
 
 function nextTick (cb, ctx) {
-  if(window.bearBins) window.bearBins.push({ type: 'tub', bears: [] })
+  if(window.bearBins) window.bearBins.push({ type: 'dumpster', bears: [] })
 
   var _resolve;
   callbacks.push(function () {

@@ -1,7 +1,11 @@
 <script>
+import BearVisualizer from './BearVisualizer'
+
 export default {
+  components: { BearVisualizer },
+
   data: _ => ({
-    bearBins: [{ type: 'tub', bears: [] }],
+    bearBins: [{ type: 'dumpster', bears: [] }],
   }),
 
   computed: {
@@ -37,12 +41,8 @@ export default {
 </script>
 
 <template>
-<div class="example1">
-  <div class="bearBinsAll">
-    <div v-for="(bin, idx) in bearBins" :key="idx" :class="`${ bin.type } bearBin`">
-      <div v-for="(bear, idx) in bin.bears" :key="idx" :class="`${ bear } bear`" />
-    </div>
-  </div>
+<div class="Visual01ChangeBear">
+  <BearVisualizer :bearBins="bearBins" />
 
   <div class="controls">
     <button @click="addBearReactive" class="button">+ clean bear</button>
