@@ -1,0 +1,189 @@
+<script>
+import TreeVisualizer from './TreeVisualizer'
+
+export default {
+  components: { TreeVisualizer },
+
+  props: { parentData: Array },
+
+  data: _ => ({
+    leavesToShow: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ],
+
+    timeout: 2000,
+
+    treeData: [
+      {
+        name: 'a',
+        children: [
+          { name: 'b' },
+          {
+            name: 'c',
+            children: [
+              {
+                name: 'e',
+                children: [
+                  { name: 'g' },
+                  {
+                    name: 'h',
+                    children: [
+                      { name: 'i' },
+                    ],
+                  },
+                ],
+              },
+              { name: 'f' },
+            ]
+          },
+          { name: 'd' },
+        ],
+      },
+    ],
+  }),
+
+  mounted() {
+    this.updateDom(_ => {})
+
+    // this.updateDom(_ => {
+    //   this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i' ]
+    // })
+
+    // this.updateDom(_ => {
+    //   this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
+    // })
+
+    this.updateDom(_ => {
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i' ]
+    })
+
+    this.updateDom(_ => {
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].name = 'changed'
+      this.leavesToShow = [ 'a', 'b', 'changed', 'd', 'e', 'f', 'g', 'h', 'i' ]
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].name = 'c'
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].name = 'changed'
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'changed', 'f', 'g', 'h', 'i' ]
+    })
+  },
+
+  methods: {
+    updateDom(func) {
+      setTimeout(func, this.timeout)
+      this.timeout += 2000
+    },
+  }
+}
+</script>
+
+<template>
+<div class="Visual03RenderTree">
+  <TreeVisualizer :leavesToShow="leavesToShow" :treeData="treeData" />
+</div>
+</template>
+
+<style lang="scss">
+// https://codepen.io/Pestov/pen/BLpgm
+
+.Visual03RenderTree {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    padding-top: 20px; position: relative;
+
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+  }
+
+  li {
+    float: left; text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 5px 0 5px;
+
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+  }
+
+  // We will use ::before and ::after to draw the connectors
+  li::before, li::after{
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%; height: 20px;
+  }
+  li::after{
+    right: auto; left: 50%;
+    border-left: 1px solid #ccc;
+  }
+
+  // We need to remove left-right connectors from elements without any siblings
+  li:only-child::after, li:only-child::before {
+  display: none;
+  }
+
+  // Remove space from the top of single children
+  li:only-child{ padding-top: 0;}
+
+  // Remove left connector from first child and right connector from last child
+  li:first-child::before, li:last-child::after{
+    border: 0 none;
+  }
+  // Adding back the vertical connector to the last nodes
+  li:last-child::before{
+    border-right: 1px solid #ccc;
+    border-radius: 0 5px 0 0;
+  }
+  li:first-child::after{
+    border-radius: 5px 0 0 0;
+  }
+
+  // Time to add downward connectors from parents
+  ul ul::before {
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0; height: 20px;
+  }
+
+  li .leafContainer {
+    background-color: #542a0b;
+    background-blend-mode: multiply;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-family: arial, verdana, tahoma;
+    font-size: 11px;
+    display: inline-block;
+
+    border-radius: 5px;
+    transition: all 0.5s;
+  }
+
+  // Time for some hover effects
+  // We will apply the hover effect the the lineage of the element also
+  li a:hover, li a:hover+ul li a {
+    background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+  }
+
+  // Connector styles on hover
+  li a:hover+ul li::after,
+  li a:hover+ul li::before,
+  li a:hover+ul::before,
+  li a:hover+ul ul::before{
+    border-color:  #94a0b4;
+  }
+}
+</style>
