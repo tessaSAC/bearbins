@@ -57,11 +57,12 @@ $black: rgba(#2c3e50, 0.7);
 
   .tab {
     background: rgba(0, 0, 0, 0.1);
-    box-shadow: inset 0 0 0.2rem 0.2rem rgba(0, 0, 0, 0.03);
     opacity: 0.8;
     padding: 0.75rem 6rem 0.5rem;
     display: flex;
     align-items: flex-end;
+    border-left: 0.8px solid rgba(0, 0, 0, 0.08);
+    border-right: 0.8px solid rgba(0, 0, 0, 0.08);
 
     &.active {
       background: none;
