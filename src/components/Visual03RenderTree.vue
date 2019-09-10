@@ -12,31 +12,31 @@ export default {
     treeData: [
       {
         name: 'a',
-        bear: 'clean',
+        status: 'clean',
         children: [
-          { name: 'b', bear: 'clean' },
+          { name: 'b', status: 'clean' },
           {
             name: 'c',
-            bear: 'clean',
+            status: 'clean',
             children: [
               {
                 name: 'e',
-                bear: 'clean',
+                status: 'clean',
                 children: [
-                  { name: 'g', bear: 'clean' },
+                  { name: 'g', status: 'clean' },
                   {
                     name: 'h',
-                    bear: 'clean',
+                    status: 'clean',
                     children: [
-                      { name: 'i', bear: 'clean' },
+                      { name: 'i', status: 'clean' },
                     ],
                   },
                 ],
               },
-              { name: 'f', bear: 'clean' },
+              { name: 'f', status: 'clean' },
             ]
           },
-          { name: 'd', bear: 'clean' },
+          { name: 'd', status: 'clean' },
         ],
       },
     ],
@@ -46,43 +46,43 @@ export default {
     this.updateDom(_ => {})
 
     this.updateDom(_ => {
-      this.treeData[0].bear = 'clean'
+      this.treeData[0].status = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].bear = 'clean'
+      this.treeData[0].status = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].bear = 'dirty'
+      this.treeData[0].children[1].status = 'dirty'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].bear = 'clean'
+      this.treeData[0].children[1].status = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].bear = 'dirty'
+      this.treeData[0].children[1].children[0].status = 'dirty'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].bear = 'clean'
+      this.treeData[0].children[1].children[0].status = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].children[1].bear = 'dirty'
+      this.treeData[0].children[1].children[0].children[1].status = 'dirty'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].children[1].bear = 'clean'
+      this.treeData[0].children[1].children[0].children[1].status = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].children[1].children[0].bear = 'dirty'
+      this.treeData[0].children[1].children[0].children[1].children[0].status = 'dirty'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].children[1].children[0].bear = 'clean'
+      this.treeData[0].children[1].children[0].children[1].children[0].status = 'clean'
     })
   },
 
@@ -91,13 +91,26 @@ export default {
       setTimeout(func, this.timeout)
       this.timeout += 2000
     },
-  }
+
+    switchBearStatus({ name, status }) {
+      const newStatus = status === 'clean' ? 'dirty' : 'clean'
+
+      searchDeep(this.treeData)
+
+      function searchDeep(bearr) {
+        bearr.forEach(bear => {
+          if(bear.name === name) return bear.status = newStatus
+          if(bear.children) searchDeep(bear.children)
+        })
+      }
+    },
+  },
 }
 </script>
 
 <template>
 <div class="Visual03RenderTree">
-  <TreeVisualizer :treeData="treeData" />
+  <TreeVisualizer :treeData="treeData" @switch-bear-status="switchBearStatus" />
 </div>
 </template>
 
