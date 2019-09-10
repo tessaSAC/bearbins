@@ -3,10 +3,7 @@ import { setTimeout } from 'timers';
 export default {
   name: 'TreeVisualizer',
 
-  props: {
-    leavesToShow: Array,
-    treeData: Array
-  },
+  props: { treeData: Array },
 
   methods: {
     showLeaf(leafName) { return this.leavesToShow.includes(leafName) }
@@ -17,10 +14,10 @@ export default {
 <template>
 <ul>
   <template v-for="leaf in treeData">
-    <li v-show="showLeaf(leaf.name)" :key="leaf.name" :ref="leaf.name">
+    <li :key="leaf.name" :ref="leaf.name">
       <div class="leafContainer">{{ leaf.name }}</div>
 
-      <TreeVisualizer v-if="leaf.children" :leavesToShow="leavesToShow" :treeData="leaf.children" />
+      <TreeVisualizer v-if="leaf.children" :treeData="leaf.children" />
     </li>
   </template>
 </ul>

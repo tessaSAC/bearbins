@@ -43,13 +43,13 @@ export default {
   mounted() {
     this.updateDom(_ => {})
 
-    // this.updateDom(_ => {
-    //   this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i' ]
-    // })
+    this.updateDom(_ => {
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i' ]
+    })
 
-    // this.updateDom(_ => {
-    //   this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
-    // })
+    this.updateDom(_ => {
+      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
+    })
 
     this.updateDom(_ => {
       this.leavesToShow = [ 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i' ]
