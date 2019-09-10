@@ -2,23 +2,16 @@
 import { setTimeout } from 'timers';
 export default {
   name: 'TreeVisualizer',
-
   props: { treeData: Array },
-
-  methods: {
-    showLeaf(leafName) { return this.leavesToShow.includes(leafName) }
-  }
 }
 </script>
 
 <template>
 <ul>
-  <template v-for="leaf in treeData">
-    <li :key="leaf.name" :ref="leaf.name">
-      <div class="leafContainer">{{ leaf.name }}</div>
-
-      <TreeVisualizer v-if="leaf.children" :treeData="leaf.children" />
-    </li>
-  </template>
+  <!-- All sub-children get re-rendered if v-for is in a template tag and key is unique and not index fsr -->
+  <li v-for="leaf in treeData" :key="leaf.name" :ref="leaf.name">
+    <div class="leafContainer" :class="leaf.bear" />
+    <TreeVisualizer v-if="leaf.children" :treeData="leaf.children" />
+  </li>
 </ul>
 </template>

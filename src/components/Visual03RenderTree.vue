@@ -7,34 +7,36 @@ export default {
   props: { parentData: Array },
 
   data: _ => ({
-    leavesToShow: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ],
-
-    timeout: 2000,
+    timeout: 1000,
 
     treeData: [
       {
         name: 'a',
+        bear: 'clean',
         children: [
-          { name: 'b' },
+          { name: 'b', bear: 'clean' },
           {
             name: 'c',
+            bear: 'clean',
             children: [
               {
                 name: 'e',
+                bear: 'clean',
                 children: [
-                  { name: 'g' },
+                  { name: 'g', bear: 'clean' },
                   {
                     name: 'h',
+                    bear: 'clean',
                     children: [
-                      { name: 'i' },
+                      { name: 'i', bear: 'clean' },
                     ],
                   },
                 ],
               },
-              { name: 'f' },
+              { name: 'f', bear: 'clean' },
             ]
           },
-          { name: 'd' },
+          { name: 'd', bear: 'clean' },
         ],
       },
     ],
@@ -44,15 +46,43 @@ export default {
     this.updateDom(_ => {})
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].name = 'changed'
+      this.treeData[0].bear = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].name = 'c'
+      this.treeData[0].bear = 'clean'
     })
 
     this.updateDom(_ => {
-      this.treeData[0].children[1].children[0].name = 'changed'
+      this.treeData[0].children[1].bear = 'dirty'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].bear = 'clean'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].bear = 'dirty'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].bear = 'clean'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].children[1].bear = 'dirty'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].children[1].bear = 'clean'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].children[1].children[0].bear = 'dirty'
+    })
+
+    this.updateDom(_ => {
+      this.treeData[0].children[1].children[0].children[1].children[0].bear = 'clean'
     })
   },
 
@@ -67,7 +97,7 @@ export default {
 
 <template>
 <div class="Visual03RenderTree">
-  <TreeVisualizer :leavesToShow="leavesToShow" :treeData="treeData" />
+  <TreeVisualizer :treeData="treeData" />
 </div>
 </template>
 
@@ -134,23 +164,22 @@ export default {
   // Time to add downward connectors from parents
   ul ul::before {
     content: '';
-    position: absolute; top: 0; left: 50%;
+    position: absolute;
+    top: -6px;
+    left: 50%;
     border-left: 1px solid #ccc;
-    width: 0; height: 20px;
+    width: 0;
+    height: 26px;
   }
 
   li .leafContainer {
-    background-color: #542a0b;
-    background-blend-mode: multiply;
-    color: white;
-    padding: 5px 10px;
-    text-decoration: none;
-    font-family: arial, verdana, tahoma;
-    font-size: 11px;
+    mix-blend-mode: multiply;
+    opacity: 0.8;
     display: inline-block;
-
-    border-radius: 5px;
     transition: all 0.5s;
+
+    &.clean { content:url('../assets/bear_head.png') }
+    &.dirty { content:url('../assets/bear_head-washing.png') }
   }
 
   // Time for some hover effects

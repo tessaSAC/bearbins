@@ -89,10 +89,12 @@ $black: rgba(#2c3e50, 0.7);
 .dumpster {
   content:url('./assets/dumpster.png');
   mix-blend-mode: multiply;
+  opacity: 0.9;
 }
 .tub {
   content:url('./assets/tub.png');
   mix-blend-mode: multiply;
+  opacity: 0.9;
 }
 
 .bearsAll {
@@ -104,6 +106,7 @@ $black: rgba(#2c3e50, 0.7);
 .bear {
   content:url('./assets/bear.png');
   mix-blend-mode: multiply;
+  opacity: 0.9;
 
 
   &.dirty { content:url('./assets/bear-washing.png'); }
