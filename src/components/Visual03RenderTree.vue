@@ -44,34 +44,15 @@ export default {
     this.updateDom(_ => {})
 
     this.updateDom(_ => {
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i' ]
-    })
-
-    this.updateDom(_ => {
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
-    })
-
-    this.updateDom(_ => {
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i' ]
-    })
-
-    this.updateDom(_ => {
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
-    })
-
-    this.updateDom(_ => {
       this.treeData[0].children[1].name = 'changed'
-      this.leavesToShow = [ 'a', 'b', 'changed', 'd', 'e', 'f', 'g', 'h', 'i' ]
     })
 
     this.updateDom(_ => {
       this.treeData[0].children[1].name = 'c'
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ]
     })
 
     this.updateDom(_ => {
       this.treeData[0].children[1].children[0].name = 'changed'
-      this.leavesToShow = [ 'a', 'b', 'c', 'd', 'changed', 'f', 'g', 'h', 'i' ]
     })
   },
 
