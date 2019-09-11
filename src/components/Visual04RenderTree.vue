@@ -89,7 +89,7 @@ export default {
   methods: {
     updateDom(func) {
       setTimeout(func, this.timeout)
-      this.timeout += 2000
+      this.timeout += 700
     },
 
     switchBearStatus({ name, status }) {
