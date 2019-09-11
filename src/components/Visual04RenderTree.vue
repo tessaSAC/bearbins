@@ -109,7 +109,7 @@ export default {
 </script>
 
 <template>
-<div class="Visual03RenderTree">
+<div class="Visual04RenderTree">
   <TreeVisualizer :treeData="treeData" @switch-bear-status="switchBearStatus" />
 </div>
 </template>
@@ -117,7 +117,7 @@ export default {
 <style lang="scss">
 // https://codepen.io/Pestov/pen/BLpgm
 
-.Visual03RenderTree {
+.Visual04RenderTree {
   min-height: 50vh;
   display: flex;
   justify-content: center;

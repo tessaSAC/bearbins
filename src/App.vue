@@ -1,7 +1,8 @@
 <script>
 import Visual01ChangeBear from './components/Visual01ChangeBear'
 import Visual02ChangeContainer from './components/Visual02ChangeContainer'
-import Visual03RenderTree from './components/Visual03RenderTree'
+import Visual03BearsOnTick from './components/Visual03BearsOnTick'
+import Visual04RenderTree from './components/Visual04RenderTree'
 
 export default {
   name: 'App',
@@ -9,7 +10,8 @@ export default {
   components: {
     Visual01ChangeBear,
     Visual02ChangeContainer,
-    Visual03RenderTree,
+    Visual03BearsOnTick,
+    Visual04RenderTree,
   },
 
   data: _ => ({ tabActive: 1, }),
@@ -37,12 +39,18 @@ export default {
       :class="tabActive === 3 ? 'active' : ''"
       class="tab"
       @click="changeTabActive(3)"
+    >visual iii</div>
+    <div
+      :class="tabActive === 3 ? 'active' : ''"
+      class="tab"
+      @click="changeTabActive(3)"
     >render tree</div>
   </div>
 
   <Visual01ChangeBear v-if="tabActive === 1" />
   <Visual02ChangeContainer v-else-if="tabActive === 2" />
-  <Visual03RenderTree v-else />
+  <Visual03BearsOnTick v-else-if="tabActive === 3" />
+  <Visual04RenderTree v-else />
 </div>
 </template>
 
