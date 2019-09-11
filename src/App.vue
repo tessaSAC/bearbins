@@ -41,16 +41,17 @@ export default {
       @click="changeTabActive(3)"
     >visual iii</div>
     <div
-      :class="tabActive === 3 ? 'active' : ''"
+      :class="tabActive === 4 ? 'active' : ''"
       class="tab"
-      @click="changeTabActive(3)"
+      @click="changeTabActive(4)"
     >render tree</div>
+    <div class="tab bg" />
   </div>
 
-  <Visual01ChangeBear v-if="tabActive === 1" />
-  <Visual02ChangeContainer v-else-if="tabActive === 2" />
-  <Visual03BearsOnTick v-else-if="tabActive === 3" />
-  <Visual04RenderTree v-else />
+  <Visual01ChangeBear v-if="tabActive === 1" class="content" />
+  <Visual02ChangeContainer v-else-if="tabActive === 2" class="content" />
+  <Visual03BearsOnTick v-else-if="tabActive === 3" class="content" />
+  <Visual04RenderTree v-else class="content" />
 </div>
 </template>
 
@@ -58,9 +59,7 @@ export default {
 $black: rgba(#2c3e50, 0.7);
 
 .tabs {
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 100vw;
   display: flex;
 
   .tab {
@@ -77,8 +76,12 @@ $black: rgba(#2c3e50, 0.7);
       box-shadow: 0 -0.3rem 0.3rem rgba(0, 0, 0, 0.2);
       opacity: 1;
     }
+
+    &.bg { flex-grow: 1; }
   }
 }
+
+.content { padding: 0 10vh 10vh; }
 
 #app {
   @import url('https://fonts.googleapis.com/css?family=Overpass&display=swap');
@@ -98,11 +101,9 @@ $black: rgba(#2c3e50, 0.7);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  padding: 10vh;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
 
 
   // from cli:
