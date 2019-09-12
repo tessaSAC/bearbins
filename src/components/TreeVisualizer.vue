@@ -1,5 +1,4 @@
 <script>
-import { setTimeout } from 'timers';
 export default {
   name: 'TreeVisualizer',
 

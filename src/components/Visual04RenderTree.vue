@@ -4,8 +4,6 @@ import TreeVisualizer from './TreeVisualizer'
 export default {
   components: { TreeVisualizer },
 
-  props: { parentData: Array },
-
   data: _ => ({
     timeout: 1000,
 
