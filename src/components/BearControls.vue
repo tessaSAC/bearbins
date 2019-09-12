@@ -29,6 +29,8 @@ $black: rgba(#2c3e50, 0.7);
       left: 0.1rem;
     }
 
+    &:focus { outline: none; }
+
     + .button {
       margin-left: 1rem;
     }
