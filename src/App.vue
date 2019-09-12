@@ -81,7 +81,7 @@ $black: rgba(#2c3e50, 0.7);
   }
 }
 
-.content { padding: 0 10vh 10vh; }
+.content { padding: 10vh; }
 
 #app {
   @import url('https://fonts.googleapis.com/css?family=Overpass&display=swap');
