@@ -46,7 +46,7 @@ export default {
     this.updateDom(_ => {})
 
     this.updateDom(_ => {
-      this.treeData[0].status = 'clean'
+      this.treeData[0].status = 'dirty'
     })
 
     this.updateDom(_ => {
