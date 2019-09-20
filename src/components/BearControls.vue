@@ -14,7 +14,7 @@ $black: rgba(#2c3e50, 0.7);
   justify-content: flex-end;
 
   .button {
-    // TODO: remove focus styles
+    cursor: pointer;
     background: none;
     border: 1px solid $black;
     border-radius: 2rem;

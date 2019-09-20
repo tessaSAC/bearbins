@@ -29,13 +29,13 @@ export default {
       this.bearBins.push({ bears: [], type: 'dumpster' })
 
       for(let i = 0; i < this.getRandomNumberBetween1and4(); ++i) {
-        console.countReset('calling $nextTick')  // shows each count is distinct
-
         this.$nextTick(_ => {
           console.count('calling $nextTick')
           this.bearBins[this.lenBearBins - 1].bears.push('clean')
         })
       }
+
+      console.countReset('calling $nextTick')  // shows each count is distinct
     },
 
     getRandomNumberBetween1and4() {

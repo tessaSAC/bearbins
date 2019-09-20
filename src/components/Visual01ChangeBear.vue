@@ -33,8 +33,8 @@ export default {
       this.bearBins[ this.lenBearBins - 1 ].bears.push('clean')
     },
 
-    addBearHidden() {
-      const currentBin = this.bearBins[ this.lenBearBins - 1 ].bears
+    addBearNonReactive() {
+      const currentBin = this.bearBins[ this.bearBins.length - 1 ].bears
       currentBin[currentBin.length] = 'dirty'
     },
   },
@@ -47,7 +47,7 @@ export default {
 
   <BearControls>
     <button @click="addBearReactive" class="button">+ clean bear</button>
-    <button @click="addBearHidden" class="button">+ washing bear</button>
+    <button @click="addBearNonReactive" class="button">+ washing bear</button>
   </BearControls>
 </div>
 </template>
