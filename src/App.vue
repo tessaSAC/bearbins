@@ -3,6 +3,7 @@ import Visual01ChangeBear from './components/Visual01ChangeBear'
 import Visual02ChangeContainer from './components/Visual02ChangeContainer'
 import Visual03BearsOnTick from './components/Visual03BearsOnTick'
 import Visual04RenderTree from './components/Visual04RenderTree'
+import ReferenceLinks from './components/ReferenceLinks'
 
 export default {
   name: 'App',
@@ -12,6 +13,7 @@ export default {
     Visual02ChangeContainer,
     Visual03BearsOnTick,
     Visual04RenderTree,
+    ReferenceLinks,
   },
 
   data: _ => ({ tabActive: 1, }),
@@ -45,13 +47,19 @@ export default {
       class="tab"
       @click="changeTabActive(4)"
     >render tree</div>
+    <div
+      :class="tabActive === 5 ? 'active' : ''"
+      class="tab"
+      @click="changeTabActive(5)"
+    >reference</div>
     <div class="tab bg" />
   </div>
 
   <Visual01ChangeBear v-if="tabActive === 1" class="content" />
   <Visual02ChangeContainer v-else-if="tabActive === 2" class="content" />
   <Visual03BearsOnTick v-else-if="tabActive === 3" class="content" />
-  <Visual04RenderTree v-else class="content" />
+  <Visual04RenderTree v-else-if="tabActive === 4" class="content" />
+  <ReferenceLinks v-else class="content" />
 </div>
 </template>
 
@@ -67,7 +75,7 @@ $black: rgba(#2c3e50, 0.7);
     opacity: 0.8;
     padding: 0.75rem 6rem 0.5rem;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     border-left: 0.8px solid rgba(0, 0, 0, 0.08);
     border-right: 0.8px solid rgba(0, 0, 0, 0.08);
 
