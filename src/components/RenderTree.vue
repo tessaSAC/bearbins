@@ -108,7 +108,7 @@ export default {
 
 <template>
 <div class="Visual04RenderTree">
-  <TreeVisualizer :treeData="treeData" @switch-bear-status="switchBearStatus" />
+  <TreeVisualizer :treeData="treeData" @bear-selected="switchBearStatus" />
 </div>
 </template>
 

@@ -2,7 +2,8 @@
 import Visual01ChangeBear from './components/Visual01ChangeBear'
 import Visual02ChangeContainer from './components/Visual02ChangeContainer'
 import Visual03BearsOnTick from './components/Visual03BearsOnTick'
-import Visual04RenderTree from './components/Visual04RenderTree'
+import RenderTree from './components/RenderTree'
+import EffectsOfNonReactiveSubObjects from './components/EffectsOfNonReactiveSubObjects'
 import ReferenceLinks from './components/ReferenceLinks'
 
 export default {
@@ -12,7 +13,8 @@ export default {
     Visual01ChangeBear,
     Visual02ChangeContainer,
     Visual03BearsOnTick,
-    Visual04RenderTree,
+    RenderTree,
+    EffectsOfNonReactiveSubObjects,
     ReferenceLinks,
   },
 
@@ -48,9 +50,15 @@ export default {
       @click="changeTabActive(4)"
     >render tree</div>
     <div
+    <div
       :class="tabActive === 5 ? 'active' : ''"
       class="tab"
       @click="changeTabActive(5)"
+    >non-reactive sub-objects</div>
+    <div
+      :class="tabActive === 6 ? 'active' : ''"
+      class="tab"
+      @click="changeTabActive(6)"
     >reference</div>
     <div class="tab bg" />
   </div>
@@ -58,7 +66,8 @@ export default {
   <Visual01ChangeBear v-if="tabActive === 1" class="content" />
   <Visual02ChangeContainer v-else-if="tabActive === 2" class="content" />
   <Visual03BearsOnTick v-else-if="tabActive === 3" class="content" />
-  <Visual04RenderTree v-else-if="tabActive === 4" class="content" />
+  <RenderTree v-else-if="tabActive === 4" class="content" />
+  <EffectsOfNonReactiveSubObjects v-else-if="tabActive === 5" class="content" />
   <ReferenceLinks v-else class="content" />
 </div>
 </template>
