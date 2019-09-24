@@ -41,6 +41,8 @@ export default {
         ],
       },
     ],
+
+    treeKey: 0,
   }),
 
   mounted() {},
@@ -60,8 +62,9 @@ export default {
       this.addChild(addReactively)
     },
 
+    // TODO: Re-add adding new gen functionality so first non-reactive child doesn't render
     addChildNonReactive() {
-      function addNonReactively(arr, newChild) { arr[arr.length - 1] = newChild }
+      function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
       this.addChild(addNonReactively)
     },
 
@@ -86,20 +89,21 @@ export default {
 
     selectBear(bearSelected) { this.bearSelected = bearSelected },
 
-    triggerRender() { this.$nextTick() }
+    triggerRender() { ++this.treeKey }
   },
 }
 </script>
 
 <template>
 <div class="EffectsOfNonReactiveSubObjects">
-  <TreeVisualizer :bearSelected=bearSelected :treeData="treeData" @bear-selected="selectBear" />
+  <div class="TreeContainer">
+    <TreeVisualizer :key="treeKey" :bearSelected=bearSelected :treeData="treeData" @bear-selected="selectBear" />
+  </div>
 
   <BearControls>
     <button class="button" @click="addChildReactive">add reactive child</button>
     <button class="button" @click="addChildNonReactive">add non-reactive child</button>
     <button class="button" @click="changeBearStatus">change bear status</button>
-    <button class="button">add sibling</button>
     <button class="button" @click="triggerRender">trigger render</button>
   </BearControls>
 </div>
@@ -112,6 +116,12 @@ export default {
   min-height: 50vh;
   display: flex;
   justify-content: space-between;
+
+  .TreeContainer {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
 
   .BearControls {
     flex-direction: column;

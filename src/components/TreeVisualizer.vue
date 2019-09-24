@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-<ul>
+<ul class="TreeVisualizer">
   <!-- All sub-children get re-rendered if v-for is in a template tag and key is unique and not index fsr -->
   <li v-for="bear in treeData" :key="bear.name">
     <div

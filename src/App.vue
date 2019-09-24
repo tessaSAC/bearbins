@@ -82,7 +82,7 @@ $black: rgba(#2c3e50, 0.7);
   .tab {
     background: rgba(0, 0, 0, 0.1);
     opacity: 0.8;
-    padding: 0.75rem 6rem 0.5rem;
+    padding: 0.75rem 2rem 0.5rem;
     display: flex;
     align-items: center;
     border-left: 0.8px solid rgba(0, 0, 0, 0.08);
