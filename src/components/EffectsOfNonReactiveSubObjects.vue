@@ -45,30 +45,55 @@ export default {
     treeKey: 0,
   }),
 
+  computed: {
+    hasChildArray() { return this.bearSelected.children }
+  },
+
   mounted() {},
 
   methods: {
     // TODO: need to switch back to reactive and non-reactive generations because otherwise the parent array is still reactive (can detect changes to bear status)
 
-    async addChild(addingMethod) {
-      this.checkIfGenerationExists()
+    // This creates a child array if it does not exists and waits for the child array UL to render (so as not to trigger rerender with first child (regardless of reactivity) getting batched in with reactive array's UL)
+    // async addChild(addingMethod) {
+    //   this.checkIfGenerationExists()
 
-      await this.$nextTick()
+    //   await this.$nextTick()
+
+    //   const { name, children } = this.bearSelected
+
+    //   addingMethod(children, { name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
+    //   ++this.counterUniqueId
+    // },
+
+    // addChildReactive() {
+    //   function addReactively(arr, newChild) { arr.push(newChild) }
+    //   this.addChild(addReactively)
+    // },
+
+    // addChildNonReactive() {
+    //   function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
+    //   this.addChild(addNonReactively)
+    // },
+
+    addGenerationReactive() {
+      if(this.hasChildArray) return
+      this.$set(this.bearSelected, 'children', [])
+    },
+
+    addGenerationNonReactive() {
+      if(this.bearSelected.children) return
+      this.bearSelected.children = []
+    },
+
+    addChild() {
+      if(!this.hasChildArray) return  // don't add children if generation doesn't exist
 
       const { name, children } = this.bearSelected
-
-      addingMethod(children, { name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
+      children.push({ name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
       ++this.counterUniqueId
-    },
 
-    addChildReactive() {
-      function addReactively(arr, newChild) { arr.push(newChild) }
-      this.addChild(addReactively)
-    },
-
-    addChildNonReactive() {
-      function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
-      this.addChild(addNonReactively)
+      console.dir(children)
     },
 
     changeBearStatus() {
@@ -85,10 +110,10 @@ export default {
       }
     },
 
-    checkIfGenerationExists () {
-      const { children } = this.bearSelected
-      if(!children) this.$set(this.bearSelected, 'children', [])
-    },
+    // checkIfGenerationExists () {
+    //   const { children } = this.bearSelected
+    //   if(!children) this.$set(this.bearSelected, 'children', [])
+    // },
 
     selectBear(bearSelected) { this.bearSelected = bearSelected },
 
@@ -104,8 +129,9 @@ export default {
   </div>
 
   <BearControls>
-    <button class="button" @click="addChildReactive">add reactive child</button>
-    <button class="button" @click="addChildNonReactive">add non-reactive child</button>
+    <button class="button" @click="addGenerationReactive">add reactive generation</button>
+    <button class="button" @click="addGenerationNonReactive">add non-reactive generation</button>
+    <button class="button" @click="addChild">add child</button>
     <button class="button" @click="changeBearStatus">change bear status</button>
     <button class="button" @click="triggerRender">trigger render</button>
   </BearControls>
