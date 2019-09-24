@@ -6,95 +6,77 @@ export default {
   components: { BearControls, TreeVisualizer },
 
   data: _ => ({
-    bearSelected: { name: 'root' },
+    bearSelected: {},
 
     counterUniqueId: 0,
+
+    showTree: true,
 
     treeData: [
       {
         name: 'root',
         status: 'clean',
-        children: [
-          { name: 'b', status: 'clean' },
-          {
-            name: 'c',
-            status: 'clean',
-            children: [
-              {
-                name: 'e',
-                status: 'clean',
-                children: [
-                  { name: 'g', status: 'clean' },
-                  {
-                    name: 'h',
-                    status: 'clean',
-                    children: [
-                      { name: 'i', status: 'clean' },
-                    ],
-                  },
-                ],
-              },
-              { name: 'f', status: 'clean' },
-            ]
-          },
-          { name: 'd', status: 'clean', },
-        ],
       },
     ],
-
-    treeKey: 0,
   }),
 
   computed: {
     hasChildArray() { return this.bearSelected.children }
   },
 
-  mounted() {},
+  created() { this.bearSelected = this.treeData[0] },
 
   methods: {
     // TODO: need to switch back to reactive and non-reactive generations because otherwise the parent array is still reactive (can detect changes to bear status)
 
-    // This creates a child array if it does not exists and waits for the child array UL to render (so as not to trigger rerender with first child (regardless of reactivity) getting batched in with reactive array's UL)
-    // async addChild(addingMethod) {
-    //   this.checkIfGenerationExists()
+    addChild(addingMethod) {
+      // Before re-adding reactive and non-reactive generation functionality, this function created a child array if it did not exist and waited for the child array UL to render (so as not to trigger rerender with first child (regardless of reactivity) getting batched in with reactive array's UL)
+      // this.checkIfGenerationExists()
+      // await this.$nextTick()
 
-    //   await this.$nextTick()
+      if(!this.bearSelected.children) return  // can't use computed property here because this is used by both reactive and non-reactive approaches
 
-    //   const { name, children } = this.bearSelected
+      const { name, children } = this.bearSelected
 
-    //   addingMethod(children, { name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
-    //   ++this.counterUniqueId
-    // },
+      addingMethod(children, { name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
+      ++this.counterUniqueId
 
-    // addChildReactive() {
-    //   function addReactively(arr, newChild) { arr.push(newChild) }
-    //   this.addChild(addReactively)
-    // },
+      console.dir(this.treeData)
+    },
 
-    // addChildNonReactive() {
-    //   function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
-    //   this.addChild(addNonReactively)
-    // },
+    addChildReactive() {
+      function addReactively(arr, newChild) { arr.push(newChild) }
+      this.addChild(addReactively)
+    },
+
+    addChildNonReactive() {
+      function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
+      this.addChild(addNonReactively)
+    },
 
     addGenerationReactive() {
+      console.dir(this.treeData)
       if(this.hasChildArray) return
       this.$set(this.bearSelected, 'children', [])
+
+      console.dir(this.treeData)
     },
 
     addGenerationNonReactive() {
+      console.dir(this.treeData)
       if(this.bearSelected.children) return
       this.bearSelected.children = []
+
+      console.dir(this.treeData)
     },
 
-    addChild() {
-      if(!this.hasChildArray) return  // don't add children if generation doesn't exist
+    // addChild() {
+    //   if(!this.hasChildArray) return  // don't add children if generation doesn't exist
 
-      const { name, children } = this.bearSelected
-      children.push({ name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
-      ++this.counterUniqueId
-
-      console.dir(children)
-    },
+    //   const { name, children } = this.bearSelected
+    //   children.push({ name: `${ name }-${ this.counterUniqueId }`, status: 'clean' })
+    //   ++this.counterUniqueId
+    // },
 
     changeBearStatus() {
       const { name, status } = this.bearSelected
@@ -104,10 +86,12 @@ export default {
 
       function searchDeep(bearr) {
         bearr.forEach(bear => {
-          if(bear.name === name) return bear.status = newStatus
+          if(bear.name === name) { bear.status = newStatus }
           if(bear.children) searchDeep(bear.children)
         })
       }
+
+      console.dir(this.treeData)
     },
 
     // checkIfGenerationExists () {
@@ -117,7 +101,12 @@ export default {
 
     selectBear(bearSelected) { this.bearSelected = bearSelected },
 
-    triggerRender() { ++this.treeKey }
+    triggerRender() {
+      // rerendering using keys was adding observers to everything
+      this.showTree = !this.showTree
+      this.$nextTick(_ => this.showTree = !this.showTree)
+      console.dir(this.treeData)
+    }
   },
 }
 </script>
@@ -125,13 +114,14 @@ export default {
 <template>
 <div class="EffectsOfNonReactiveSubObjects">
   <div class="TreeContainer">
-    <TreeVisualizer :key="treeKey" :bearSelected=bearSelected :treeData="treeData" @bear-selected="selectBear" />
+    <TreeVisualizer v-if="showTree" :bearSelected=bearSelected :treeData="treeData" @bear-selected="selectBear" />
   </div>
 
   <BearControls>
     <button class="button" @click="addGenerationReactive">add reactive generation</button>
     <button class="button" @click="addGenerationNonReactive">add non-reactive generation</button>
-    <button class="button" @click="addChild">add child</button>
+    <button class="button" @click="addChildReactive">add reactive child</button>
+    <button class="button" @click="addChildNonReactive">add non-reactive child</button>
     <button class="button" @click="changeBearStatus">change bear status</button>
     <button class="button" @click="triggerRender">trigger render</button>
   </BearControls>
