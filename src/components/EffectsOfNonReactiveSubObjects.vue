@@ -48,8 +48,12 @@ export default {
   mounted() {},
 
   methods: {
-    addChild(addingMethod) {
+    // TODO: need to switch back to reactive and non-reactive generations because otherwise the parent array is still reactive (can detect changes to bear status)
+
+    async addChild(addingMethod) {
       this.checkIfGenerationExists()
+
+      await this.$nextTick()
 
       const { name, children } = this.bearSelected
 
@@ -62,7 +66,6 @@ export default {
       this.addChild(addReactively)
     },
 
-    // TODO: Re-add adding new gen functionality so first non-reactive child doesn't render
     addChildNonReactive() {
       function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
       this.addChild(addNonReactively)
@@ -82,7 +85,7 @@ export default {
       }
     },
 
-    checkIfGenerationExists() {
+    checkIfGenerationExists () {
       const { children } = this.bearSelected
       if(!children) this.$set(this.bearSelected, 'children', [])
     },
