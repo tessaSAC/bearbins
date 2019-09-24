@@ -124,6 +124,7 @@ li {
     opacity: 0.8;
     display: inline-block;
     transition: all 0.5s;
+    cursor: pointer;
 
     &.clean { content:url('../assets/bear_head.png') }
     &.dirty { content:url('../assets/bear_head-washing.png') }
