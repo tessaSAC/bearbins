@@ -27,12 +27,10 @@ export default {
   created() { this.bearSelected = this.treeData[0] },
 
   methods: {
-    // TODO: need to switch back to reactive and non-reactive generations because otherwise the parent array is still reactive (can detect changes to bear status)
-
-    addChild(addingMethod) {
-      // Before re-adding reactive and non-reactive generation functionality, this function created a child array if it did not exist and waited for the child array UL to render (so as not to trigger rerender with first child (regardless of reactivity) getting batched in with reactive array's UL)
-      // this.checkIfGenerationExists()
-      // await this.$nextTick()
+    async addChild(addingMethod) {
+      // If child array doesn't exists, creates a child array and awaits child array's UL to render (so as not to trigger rerender with first child (regardless of reactivity) getting batched in with reactive array's UL)
+      this.checkIfGenerationExists()
+      await this.$nextTick()
 
       if(!this.bearSelected.children) return  // can't use computed property here because this is used by both reactive and non-reactive approaches
 
@@ -47,15 +45,18 @@ export default {
     addChildReactive() {
       function addReactively(arr, newChild) { arr.push(newChild) }
       this.addChild(addReactively)
+
+      console.dir(this.treeData)
     },
 
     addChildNonReactive() {
       function addNonReactively(arr, newChild) { arr[arr.length] = newChild }
       this.addChild(addNonReactively)
+
+      console.dir(this.treeData)
     },
 
     addGenerationReactive() {
-      console.dir(this.treeData)
       if(this.hasChildArray) return
       this.$set(this.bearSelected, 'children', [])
 
@@ -63,7 +64,6 @@ export default {
     },
 
     addGenerationNonReactive() {
-      console.dir(this.treeData)
       if(this.bearSelected.children) return
       this.bearSelected.children = []
 
@@ -79,32 +79,31 @@ export default {
     // },
 
     changeBearStatus() {
-      const { name, status } = this.bearSelected
-      const newStatus = status === 'clean' ? 'dirty' : 'clean'
-
-      searchDeep(this.treeData)
-
-      function searchDeep(bearr) {
-        bearr.forEach(bear => {
-          if(bear.name === name) { bear.status = newStatus }
-          if(bear.children) searchDeep(bear.children)
-        })
-      }
-
-      console.dir(this.treeData)
+      const { status } = this.bearSelected
+      this.bearSelected.status = status === 'clean' ? 'dirty' : 'clean'
     },
 
-    // checkIfGenerationExists () {
-    //   const { children } = this.bearSelected
-    //   if(!children) this.$set(this.bearSelected, 'children', [])
-    // },
+    checkIfGenerationExists () {
+      const { children } = this.bearSelected
+      if(!children) this.$set(this.bearSelected, 'children', [])
+    },
 
-    selectBear(bearSelected) { this.bearSelected = bearSelected },
+    resetTreeData() {
+      this.treeData = [{ name: 'root', status: 'clean' }]
+      this.bearSelected = this.treeData[0]
+    },
+
+    selectBear(bearSelected) {
+      this.bearSelected = bearSelected
+      console.log('bear selected:')
+      console.dir(this.bearSelected)
+    },
 
     triggerRender() {
       // rerendering using keys was adding observers to everything
       this.showTree = !this.showTree
       this.$nextTick(_ => this.showTree = !this.showTree)
+
       console.dir(this.treeData)
     }
   },
@@ -124,13 +123,12 @@ export default {
     <button class="button" @click="addChildNonReactive">add non-reactive child</button>
     <button class="button" @click="changeBearStatus">change bear status</button>
     <button class="button" @click="triggerRender">trigger render</button>
+    <button class="button" @click="resetTreeData">restart</button>
   </BearControls>
 </div>
 </template>
 
 <style lang="scss">
-// https://codepen.io/Pestov/pen/BLpgm
-
 .EffectsOfNonReactiveSubObjects {
   min-height: 50vh;
   display: flex;
@@ -145,97 +143,14 @@ export default {
   .BearControls {
     flex-direction: column;
     align-items: center;
+    margin-top: 0;
+    padding: 1rem;
+
+    button:first-of-type { margin-left: 1rem; }
 
     .button + .button { margin-top: 2rem; }
   }
 
   .bearSelected { filter: drop-shadow(0 0 0.75rem green); }
-
-  ul {
-    padding-top: 20px; position: relative;
-
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-  }
-
-  li {
-    float: left; text-align: center;
-    list-style-type: none;
-    position: relative;
-    padding: 20px 5px 0 5px;
-
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-  }
-
-  // We will use ::before and ::after to draw the connectors
-  li::before, li::after{
-    content: '';
-    position: absolute; top: 0; right: 50%;
-    border-top: 1px solid #ccc;
-    width: 50%; height: 20px;
-  }
-  li::after{
-    right: auto; left: 50%;
-    border-left: 1px solid #ccc;
-  }
-
-  // We need to remove left-right connectors from elements without any siblings
-  li:only-child::after, li:only-child::before {
-  display: none;
-  }
-
-  // Remove space from the top of single children
-  li:only-child{ padding-top: 0;}
-
-  // Remove left connector from first child and right connector from last child
-  li:first-child::before, li:last-child::after{
-    border: 0 none;
-  }
-  // Adding back the vertical connector to the last nodes
-  li:last-child::before{
-    border-right: 1px solid #ccc;
-    border-radius: 0 5px 0 0;
-  }
-  li:first-child::after{
-    border-radius: 5px 0 0 0;
-  }
-
-  // Time to add downward connectors from parents
-  ul ul::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    border-left: 1px solid #ccc;
-    width: 0;
-    height: 26px;
-  }
-
-  li .leafContainer {
-    mix-blend-mode: multiply;
-    opacity: 0.8;
-    display: inline-block;
-    transition: all 0.5s;
-
-    &.clean { content:url('../assets/bear_head.png') }
-    &.dirty { content:url('../assets/bear_head-washing.png') }
-  }
-
-  // Time for some hover effects
-  // We will apply the hover effect the the lineage of the element also
-  li a:hover, li a:hover+ul li a {
-    background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
-  }
-
-  // Connector styles on hover
-  li a:hover+ul li::after,
-  li a:hover+ul li::before,
-  li a:hover+ul::before,
-  li a:hover+ul ul::before{
-    border-color:  #94a0b4;
-  }
 }
 </style>

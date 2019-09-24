@@ -45,7 +45,7 @@
 </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ReferenceLinks {
   display: flex;
   flex-direction: column;
