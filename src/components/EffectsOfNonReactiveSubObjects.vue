@@ -12,12 +12,7 @@ export default {
 
     showTree: true,
 
-    treeData: [
-      {
-        name: 'root',
-        status: 'clean',
-      },
-    ],
+    treeData: [{ name: 'root', status: 'clean' }],
   }),
 
   computed: {
