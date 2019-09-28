@@ -1,31 +1,7 @@
 # bearbins
 
-## Project setup
+application for visualizing timing and batching of nextTick for the talk _watching bears from the dumpster_
 
-```bash
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```bash
-yarn run serve
-```
-
-### Compiles and minifies for production
-
-```bash
-yarn run build
-```
-
-### Run your tests
-
-```bash
-yarn run test
-```
-
-### Lints and fixes files
-
-```bash
-yarn run lint
-```
+## [deployed app](bearbins.netlify.com)
+add and remove bears, tubs, and dumpsters to observe how nextTick works 
+play with the render tree; examine reactivity via the console
